@@ -7,8 +7,6 @@ public class SudukuGen {
 	private Random random;
 	private int row;
 	private int column;
-	private long starttime;
-	private long endtime;
 	private int count;
 	
 	public SudukuGen(){
