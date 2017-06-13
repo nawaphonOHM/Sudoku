@@ -1,4 +1,5 @@
 import java.util.Random;
+import java.util.Scanner;
 
 public class SudukuGen {
 	private int grid[][];
@@ -6,26 +7,30 @@ public class SudukuGen {
 	private Random random;
 	private int row;
 	private int column;
+	private long starttime;
+	private long endtime;
+	private int count;
 	
 	public SudukuGen(){
 		this.grid = new int[9][9];
-		for(int i = 0; i < this.grid.length; i++){
-			for(int j = 0; j < this.grid[i].length; j++){
-				this.grid[i][j] = 0;
-			}
-		}
+		resetAll();
 		this.random = new Random();
 		this.row = 0;
 		this.column = 0;
+		this.count = 0;
 	}
 	
 	protected void startGen(){
-		while(this.row < 9){
+		while(this.row < this.grid[0].length){
+			this.count++;
 			this.randomNumber = this.random.nextInt(9) + 1;
-			if(this.column >= 9){
-				print();
+			if(this.count > 9999999){
+				resetAll();
+			}
+			else if(this.column >= 9){
 				this.column = 0;
 				this.row++;
+				this.count--;
 			}
 			else if(!iteratedInColumn(this.row)){
 				if(iteratedInRow(this.column) || 
@@ -39,11 +44,27 @@ public class SudukuGen {
 				}
 			}
 		}
+		print();
+		System.out.println("Using: " + this.count + " rounds");
 	}
 	
-	private void print(){
-		for(int column = 0; column < this.grid[this.row].length; column++){
-			System.out.print(this.grid[this.row][column] + " ");
+	private void resetAll(){
+		for(int row = 0; row < this.grid[0].length; row++){
+			for(int column = 0; column < this.grid[0].length; column++){
+				this.grid[row][column] = 0;
+			}
+		}
+		this.column = 0;
+		this.row = 0;
+		this.count = 0;
+	}
+	
+	private void print(){ //For debug only, In use this class you can remove to call this method, It call in startGen() method when debug.
+		for(int row = 0; row < this.grid[0].length; row++){
+			for(int column = 0; column < this.grid[0].length; column++){
+				System.out.print(this.grid[row][column] + " ");
+			}
+			System.out.println();
 		}
 		System.out.println();
 	}
@@ -117,5 +138,4 @@ public class SudukuGen {
 		}
 		return returnPosition;
 	}
-	
 }
