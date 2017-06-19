@@ -18,11 +18,11 @@ public class SudukuGen {
 		this.count = 0;
 	}
 	
-	protected void startGen(){
+	protected int[][] startGen(){
 		while(this.row < this.grid[0].length){
 			this.count++;
 			this.randomNumber = this.random.nextInt(9) + 1;
-			if(this.count > 9999999){
+			if(this.count > 2000000){
 				resetAll();
 			}
 			else if(this.column >= 9){
@@ -42,8 +42,7 @@ public class SudukuGen {
 				}
 			}
 		}
-		print();
-		System.out.println("Using: " + this.count + " rounds");
+		return this.grid;
 	}
 	
 	private void resetAll(){
@@ -57,7 +56,7 @@ public class SudukuGen {
 		this.count = 0;
 	}
 	
-	private void print(){ //For debug only, In use this class you can remove to call this method, It call in startGen() method when debug.
+	private void print(){ //For debug only, In use this class you can avoid to call this method, It call in startGen() method when debug.
 		for(int row = 0; row < this.grid[0].length; row++){
 			for(int column = 0; column < this.grid[0].length; column++){
 				System.out.print(this.grid[row][column] + " ");
