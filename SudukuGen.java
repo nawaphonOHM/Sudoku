@@ -58,7 +58,7 @@ public class SudukuGen {
 		this.count = 0;
 	}
 	
-	private void print(){ //For debug only, In use this class you can avoid to call this method, It call in startGen() method when debug.
+	private void print(){ //For debug only. In practical, This class can be avoided to call this method. Otherwise, Being calls in startGen() method when needs debug.
 		for(int row = 0; row < this.grid[0].length; row++){
 			for(int column = 0; column < this.grid[0].length; column++){
 				System.out.print(this.grid[row][column] + " ");
