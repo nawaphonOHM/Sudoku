@@ -1,4 +1,4 @@
-//Nawaphon Isarathanachaikul 06/19/2107
+//Nawaphon Isarathanachaikul 06/19/2017
 
 import java.util.Random;
 import java.util.Scanner;
