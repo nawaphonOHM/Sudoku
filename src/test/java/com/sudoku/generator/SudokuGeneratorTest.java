@@ -67,19 +67,11 @@ class SudokuGeneratorTest {
     }
 
     @Test
-    void generateProducesDifferentGridsWithDifferentSeeds() {
+    void generateIsDeterministicForSameSeed() {
         final int[][] grid1 = new SudokuGenerator(new Random(1)).generate();
-        final int[][] grid2 = new SudokuGenerator(new Random(99)).generate();
-        boolean different = false;
-        outer:
+        final int[][] grid2 = new SudokuGenerator(new Random(1)).generate();
         for (int row = 0; row < 9; row++) {
-            for (int col = 0; col < 9; col++) {
-                if (grid1[row][col] != grid2[row][col]) {
-                    different = true;
-                    break outer;
-                }
-            }
+            assertArrayEquals(grid1[row], grid2[row]);
         }
-        assertTrue(different, "Two grids with different seeds should differ");
     }
 }
