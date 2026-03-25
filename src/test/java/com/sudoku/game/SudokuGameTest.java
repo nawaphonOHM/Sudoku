@@ -28,14 +28,14 @@ class SudokuGameTest {
     }
 
     @Test
-    void correctGuessMakesProgressAndReturnTrue() {
+    void correctGuessMakesProgressAndReturnsTrue() {
         assertTrue(game.guess(0, 0, SOLUTION[0][0]));
         assertFalse(game.isFailed());
         assertFalse(game.isCompleted());
     }
 
     @Test
-    void wrongGuessFailsGameAndReturnFalse() {
+    void wrongGuessFailsGameAndReturnsFalse() {
         final int wrongValue = (SOLUTION[0][0] % 9) + 1;
         assertFalse(game.guess(0, 0, wrongValue));
         assertTrue(game.isFailed());
@@ -70,7 +70,7 @@ class SudokuGameTest {
                 game.guess(row, col, SOLUTION[row][col]);
             }
         }
-        assertTrue(game.calculateFinalScore() >= 0);
+        assertTrue(game.calculateFinalScore() > 0);
     }
 
     @Test

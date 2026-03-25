@@ -20,6 +20,10 @@ public final class RandomCellSelector implements CellSelector {
 
     @Override
     public boolean[][] select(final int count) {
+        if (count < 0 || count > TOTAL_CELLS) {
+            throw new IllegalArgumentException(
+                "count must be between 0 and " + TOTAL_CELLS + " (inclusive), got: " + count);
+        }
         final List<Integer> indices = new ArrayList<>(TOTAL_CELLS);
         for (int i = 0; i < TOTAL_CELLS; i++) {
             indices.add(i);

@@ -57,6 +57,7 @@ class SudokuGeneratorTest {
                 for (int r = 0; r < 3; r++) {
                     for (int c = 0; c < 3; c++) {
                         final int value = grid[boxRow * 3 + r][boxCol * 3 + c];
+                        assertTrue(value >= 1 && value <= 9, "Value must be 1-9");
                         assertFalse(seen[value], "Duplicate value in 3x3 box: " + value);
                         seen[value] = true;
                     }

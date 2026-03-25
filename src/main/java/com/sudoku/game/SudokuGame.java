@@ -48,6 +48,9 @@ public final class SudokuGame {
         final int elapsedMinutes = (int) (elapsedMillis / 60_000);
         final int adjustedPoints = Math.max(0, points - elapsedMinutes);
         final int hiddenCells = TOTAL_CELLS - difficulty.getVisibleCells();
+        if (hiddenCells <= 0) {
+            return 0;
+        }
         return (100 * adjustedPoints) / hiddenCells;
     }
 
