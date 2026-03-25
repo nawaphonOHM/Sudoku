@@ -1,0 +1,12 @@
+# Gradle build output
+build/
+.gradle/
+
+# IDE files
+.idea/
+*.iml
+.vscode/
+*.class
+
+# Gradle wrapper jar is intentionally committed
+!gradle/wrapper/gradle-wrapper.jar

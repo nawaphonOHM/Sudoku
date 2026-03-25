@@ -1,0 +1,30 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group = 'com.sudoku'
+version = '1.0.0'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.jspecify:jspecify:1.0.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.11.4'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+application {
+    mainClass = 'com.sudoku.Main'
+}
+
+test {
+    useJUnitPlatform()
+}
