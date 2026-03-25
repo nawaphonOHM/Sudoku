@@ -10,7 +10,6 @@ import com.sudoku.selector.RandomCellSelector;
 import org.jspecify.annotations.Nullable;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
