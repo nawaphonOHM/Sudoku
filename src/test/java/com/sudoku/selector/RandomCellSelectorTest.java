@@ -55,4 +55,16 @@ class RandomCellSelectorTest {
             }
         }
     }
+
+    @Test
+    void selectWithNegativeCountThrowsIllegalArgumentException() {
+        assertThrows(IllegalArgumentException.class,
+                () -> new RandomCellSelector(new Random()).select(-1));
+    }
+
+    @Test
+    void selectWithTooLargeCountThrowsIllegalArgumentException() {
+        assertThrows(IllegalArgumentException.class,
+                () -> new RandomCellSelector(new Random()).select(82));
+    }
 }
