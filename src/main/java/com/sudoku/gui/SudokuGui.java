@@ -33,16 +33,16 @@ public final class SudokuGui extends JFrame implements ActionListener, MouseList
     private final ButtonGroup difficultyGroup;
     private final JButton[] digitButtons;
 
-    private JPanel panel;
-    private GroupLayout layout;
-    private JLabel gridPanel;
-    private JLabel timeLabel;
-    private JLabel scoreLabel;
-    private JButton startButton;
-    private JButton okButton;
-    private JButton cancelButton;
-    private JLabel levelPanel;
-    private JLabel digitsPanel;
+    private final JPanel panel;
+    private final GroupLayout layout;
+    private final JLabel gridPanel;
+    private final JLabel timeLabel;
+    private final JLabel scoreLabel;
+    private final JButton startButton;
+    private final JButton okButton;
+    private final JButton cancelButton;
+    private final JLabel levelPanel;
+    private final JLabel digitsPanel;
 
     @Nullable private DifficultyLevel selectedDifficulty;
     @Nullable private SudokuGame currentGame;
@@ -56,20 +56,29 @@ public final class SudokuGui extends JFrame implements ActionListener, MouseList
         this.difficultyButtons = new JRadioButton[DifficultyLevel.values().length];
         this.difficultyGroup = new ButtonGroup();
         this.digitButtons = new JButton[GRID_SIZE];
+
+        this.panel = new JPanel();
+        this.layout = new GroupLayout(this.panel);
+        this.panel.setPreferredSize(new Dimension(
+                (int) (screenSize.getWidth() * 0.34),
+                (int) (screenSize.getHeight() * 0.805)));
+        this.panel.setLayout(this.layout);
+        this.layout.setAutoCreateGaps(true);
+        this.layout.setAutoCreateContainerGaps(true);
+
+        this.gridPanel = buildGrid();
+        this.timeLabel = buildTimeLabel();
+        this.scoreLabel = buildScoreLabel();
+        this.startButton = buildStartButton();
+        this.okButton = buildOkButton();
+        this.cancelButton = buildCancelButton();
+        this.levelPanel = buildLevelPanel();
+        this.digitsPanel = buildDigitsPanel();
+        arrangeLayout();
     }
 
     public void start() {
         applySystemLookAndFeel();
-        initPanel();
-        buildGrid();
-        buildTimeLabel();
-        buildScoreLabel();
-        buildStartButton();
-        buildOkButton();
-        buildCancelButton();
-        buildLevelPanel();
-        buildDigitsPanel();
-        arrangeLayout();
         container.add(panel);
         pack();
         setTitle("Sudoku");
@@ -86,29 +95,18 @@ public final class SudokuGui extends JFrame implements ActionListener, MouseList
         }
     }
 
-    private void initPanel() {
-        panel = new JPanel();
-        layout = new GroupLayout(panel);
-        panel.setPreferredSize(new Dimension(
-                (int) (screenSize.getWidth() * 0.34),
-                (int) (screenSize.getHeight() * 0.805)));
-        panel.setLayout(layout);
-        layout.setAutoCreateGaps(true);
-        layout.setAutoCreateContainerGaps(true);
-    }
-
-    private void buildGrid() {
-        gridPanel = new JLabel();
-        gridPanel.setPreferredSize(new Dimension(
+    private JLabel buildGrid() {
+        final JLabel grid = new JLabel();
+        grid.setPreferredSize(new Dimension(
                 (int) (screenSize.getWidth() * 0.3294289897511),
                 (int) (screenSize.getHeight() * 0.5859375)));
-        gridPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
-        gridPanel.setLayout(new GridLayout(BOX_SIZE, BOX_SIZE));
+        grid.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
+        grid.setLayout(new GridLayout(BOX_SIZE, BOX_SIZE));
         for (int i = 0; i < GRID_SIZE; i++) {
             boxPanels[i] = new JLabel();
             boxPanels[i].setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
             boxPanels[i].setLayout(new GridLayout(BOX_SIZE, BOX_SIZE));
-            gridPanel.add(boxPanels[i]);
+            grid.add(boxPanels[i]);
             final int[] bounds = boxBounds(i);
             for (int row = bounds[1]; row < bounds[3]; row++) {
                 for (int col = bounds[0]; col < bounds[2]; col++) {
@@ -117,6 +115,7 @@ public final class SudokuGui extends JFrame implements ActionListener, MouseList
                 }
             }
         }
+        return grid;
     }
 
     private JTextField createCell() {
@@ -135,82 +134,89 @@ public final class SudokuGui extends JFrame implements ActionListener, MouseList
         return new int[]{colStart, rowStart, colStart + BOX_SIZE, rowStart + BOX_SIZE};
     }
 
-    private void buildTimeLabel() {
+    private JLabel buildTimeLabel() {
         final TitledBorder border = BorderFactory.createTitledBorder(null, "Time Used");
         border.setTitleJustification(TitledBorder.LEFT);
-        timeLabel = new JLabel("");
-        timeLabel.setBorder(border);
+        final JLabel label = new JLabel("");
+        label.setBorder(border);
+        return label;
     }
 
-    private void buildScoreLabel() {
+    private JLabel buildScoreLabel() {
         final TitledBorder border = BorderFactory.createTitledBorder(null, "Score(s)");
         border.setTitleJustification(TitledBorder.LEFT);
-        scoreLabel = new JLabel("");
-        scoreLabel.setBorder(border);
+        final JLabel label = new JLabel("");
+        label.setBorder(border);
+        return label;
     }
 
-    private void buildStartButton() {
-        startButton = new JButton("Start");
-        startButton.setPreferredSize(new Dimension(
+    private JButton buildStartButton() {
+        final JButton button = new JButton("Start");
+        button.setPreferredSize(new Dimension(
                 (int) (screenSize.getWidth() * 0.06),
                 (int) (screenSize.getHeight() * 0.04)));
-        startButton.addActionListener(this);
-        startButton.setFocusPainted(false);
-        startButton.setFocusable(false);
+        button.addActionListener(this);
+        button.setFocusPainted(false);
+        button.setFocusable(false);
+        return button;
     }
 
-    private void buildOkButton() {
-        okButton = new JButton("OK");
-        okButton.setPreferredSize(new Dimension(
+    private JButton buildOkButton() {
+        final JButton button = new JButton("OK");
+        button.setPreferredSize(new Dimension(
                 (int) (screenSize.getWidth() * 0.06),
                 (int) (screenSize.getHeight() * 0.04)));
-        okButton.setEnabled(false);
-        okButton.addActionListener(this);
+        button.setEnabled(false);
+        button.addActionListener(this);
+        return button;
     }
 
-    private void buildCancelButton() {
-        cancelButton = new JButton("Cancel");
-        cancelButton.setPreferredSize(new Dimension(
+    private JButton buildCancelButton() {
+        final JButton button = new JButton("Cancel");
+        button.setPreferredSize(new Dimension(
                 (int) (screenSize.getWidth() * 0.06),
                 (int) (screenSize.getHeight() * 0.04)));
-        cancelButton.setEnabled(false);
-        cancelButton.addActionListener(this);
+        button.setEnabled(false);
+        button.addActionListener(this);
+        return button;
     }
 
-    private void buildLevelPanel() {
+    private JLabel buildLevelPanel() {
         final TitledBorder border = BorderFactory.createTitledBorder(null, "Levels");
         border.setTitleJustification(TitledBorder.LEFT);
-        levelPanel = new JLabel();
-        levelPanel.setLayout(new GridLayout(4, 2));
+        final JLabel lPanel = new JLabel();
+        lPanel.setLayout(new GridLayout(4, 2));
         final DifficultyLevel[] levels = DifficultyLevel.values();
         for (int i = 0; i < levels.length; i++) {
             difficultyButtons[i] = new JRadioButton(levels[i].getDisplayName());
             difficultyButtons[i].setEnabled(false);
             difficultyButtons[i].addActionListener(this);
             difficultyGroup.add(difficultyButtons[i]);
-            levelPanel.add(difficultyButtons[i]);
+            lPanel.add(difficultyButtons[i]);
         }
-        levelPanel.setBorder(border);
-        levelPanel.setPreferredSize(new Dimension(
+        lPanel.setBorder(border);
+        lPanel.setPreferredSize(new Dimension(
                 (int) (screenSize.getWidth() * 0.014),
                 (int) (screenSize.getHeight() * 0.138)));
+        return lPanel;
     }
 
-    private void buildDigitsPanel() {
+    private JLabel buildDigitsPanel() {
         final TitledBorder border = BorderFactory.createTitledBorder(null, "Digits");
         border.setTitleJustification(TitledBorder.LEFT);
-        digitsPanel = new JLabel();
-        digitsPanel.setLayout(new GridLayout(BOX_SIZE, BOX_SIZE,
+        final JLabel dPanel = new JLabel();
+        dPanel.setLayout(new GridLayout(BOX_SIZE, BOX_SIZE,
                 (int) (screenSize.getWidth() * 0.002),
                 (int) (screenSize.getHeight() * 0.004)));
         for (int i = 0; i < GRID_SIZE; i++) {
             digitButtons[i] = new JButton(Integer.toString(i + 1));
             digitButtons[i].addActionListener(this);
-            digitsPanel.add(digitButtons[i]);
+            dPanel.add(digitButtons[i]);
             digitButtons[i].setEnabled(false);
         }
-        digitsPanel.setBorder(border);
-        digitsPanel.setPreferredSize(new Dimension(0, (int) (screenSize.getHeight() * 0.14)));
+        dPanel.setBorder(border);
+        dPanel.setPreferredSize(new Dimension(0, (int) (screenSize.getHeight() * 0.14)));
+        return dPanel;
     }
 
     private void arrangeLayout() {
