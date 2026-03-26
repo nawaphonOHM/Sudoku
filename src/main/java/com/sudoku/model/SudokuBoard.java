@@ -11,6 +11,20 @@ public final class SudokuBoard {
     private final boolean[][] revealed;
 
     public SudokuBoard(final int[][] solution, final boolean[][] initiallyRevealed) {
+        if (solution.length != SIZE || initiallyRevealed.length != SIZE) {
+            throw new IllegalArgumentException(
+                    "Both arrays must have exactly " + SIZE + " rows");
+        }
+        for (int i = 0; i < SIZE; i++) {
+            if (solution[i].length != SIZE) {
+                throw new IllegalArgumentException(
+                        "solution row " + i + " must have exactly " + SIZE + " columns");
+            }
+            if (initiallyRevealed[i].length != SIZE) {
+                throw new IllegalArgumentException(
+                        "initiallyRevealed row " + i + " must have exactly " + SIZE + " columns");
+            }
+        }
         this.solution = deepCopy(solution);
         this.initiallyRevealed = deepCopy(initiallyRevealed);
         this.revealed = deepCopy(initiallyRevealed);

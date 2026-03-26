@@ -4,9 +4,7 @@ package com.sudoku.gui;
 
 import com.sudoku.game.DifficultyLevel;
 import com.sudoku.game.SudokuGame;
-import com.sudoku.generator.SudokuGenerator;
 import com.sudoku.model.SudokuBoard;
-import com.sudoku.selector.RandomCellSelector;
 import org.jspecify.annotations.Nullable;
 
 import javax.swing.*;
@@ -16,7 +14,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.Random;
 
 public final class SudokuGui extends JFrame implements ActionListener, MouseListener {
 
@@ -291,16 +288,22 @@ public final class SudokuGui extends JFrame implements ActionListener, MouseList
         }
         okButton.setEnabled(false);
         cancelButton.setEnabled(false);
-        startButton.setText("Renew");
-        startButton.setEnabled(true);
+        startButton.setEnabled(false);
         setDifficultyButtonsEnabled(false);
-        final int[][] solution = new SudokuGenerator(new Random()).generate();
-        final boolean[][] revealed = new RandomCellSelector(new Random()).select(selectedDifficulty.getVisibleCells());
-        final SudokuBoard board = new SudokuBoard(solution, revealed);
-        currentGame = new SudokuGame(board, selectedDifficulty);
+        new PuzzleGenerationWorker(this, selectedDifficulty).execute();
+    }
+
+    void onPuzzleGenerated(final SudokuBoard board, final DifficultyLevel difficulty) {
+        currentGame = new SudokuGame(board, difficulty);
         applyBoardToGrid(board);
         timeLabel.setText("N/A");
         scoreLabel.setText("N/A");
+        startButton.setText("Renew");
+        startButton.setEnabled(true);
+    }
+
+    void onPuzzleGenerationFailed() {
+        startButton.setEnabled(true);
     }
 
     private void applyBoardToGrid(final SudokuBoard board) {
