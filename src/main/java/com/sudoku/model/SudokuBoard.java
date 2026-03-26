@@ -1,0 +1,75 @@
+// Author: Nawaphon Isarathanachaikul, 06/19/2017
+// Refactored by: GitHub Copilot, 03/25/2026
+package com.sudoku.model;
+
+public final class SudokuBoard {
+
+    private static final int SIZE = 9;
+
+    private final int[][] solution;
+    private final boolean[][] initiallyRevealed;
+    private final boolean[][] revealed;
+
+    public SudokuBoard(final int[][] solution, final boolean[][] initiallyRevealed) {
+        if (solution.length != SIZE || initiallyRevealed.length != SIZE) {
+            throw new IllegalArgumentException(
+                    "Both arrays must have exactly " + SIZE + " rows");
+        }
+        for (int i = 0; i < SIZE; i++) {
+            if (solution[i].length != SIZE) {
+                throw new IllegalArgumentException(
+                        "solution row " + i + " must have exactly " + SIZE + " columns");
+            }
+            if (initiallyRevealed[i].length != SIZE) {
+                throw new IllegalArgumentException(
+                        "initiallyRevealed row " + i + " must have exactly " + SIZE + " columns");
+            }
+        }
+        this.solution = deepCopy(solution);
+        this.initiallyRevealed = deepCopy(initiallyRevealed);
+        this.revealed = deepCopy(initiallyRevealed);
+    }
+
+    public int getSolution(final int row, final int col) {
+        return solution[row][col];
+    }
+
+    public boolean isInitiallyRevealed(final int row, final int col) {
+        return initiallyRevealed[row][col];
+    }
+
+    public boolean isRevealed(final int row, final int col) {
+        return revealed[row][col];
+    }
+
+    public void reveal(final int row, final int col) {
+        revealed[row][col] = true;
+    }
+
+    public boolean isAllRevealed() {
+        for (int row = 0; row < SIZE; row++) {
+            for (int col = 0; col < SIZE; col++) {
+                if (!revealed[row][col]) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private static int[][] deepCopy(final int[][] array) {
+        final int[][] copy = new int[array.length][];
+        for (int i = 0; i < array.length; i++) {
+            copy[i] = array[i].clone();
+        }
+        return copy;
+    }
+
+    private static boolean[][] deepCopy(final boolean[][] array) {
+        final boolean[][] copy = new boolean[array.length][];
+        for (int i = 0; i < array.length; i++) {
+            copy[i] = array[i].clone();
+        }
+        return copy;
+    }
+}
