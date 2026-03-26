@@ -13,8 +13,17 @@ public final class Main {
 
     public static void main(final String[] args) {
         SwingUtilities.invokeLater(() -> {
+            applySystemLookAndFeel();
             final SudokuGui gui = new SudokuGui();
             gui.start();
         });
+    }
+
+    private static void applySystemLookAndFeel() {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

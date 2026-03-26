@@ -78,7 +78,6 @@ public final class SudokuGui extends JFrame implements ActionListener, MouseList
     }
 
     public void start() {
-        applySystemLookAndFeel();
         container.add(panel);
         pack();
         setTitle("Sudoku");
@@ -86,13 +85,6 @@ public final class SudokuGui extends JFrame implements ActionListener, MouseList
         setLocationRelativeTo(null);
         setResizable(false);
         setVisible(true);
-    }
-
-    private void applySystemLookAndFeel() {
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception ignored) {
-        }
     }
 
     private JLabel buildGrid() {
