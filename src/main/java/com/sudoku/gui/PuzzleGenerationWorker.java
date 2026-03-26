@@ -31,6 +31,10 @@ final class PuzzleGenerationWorker extends SwingWorker<SudokuBoard, Void> {
 
     @Override
     protected void done() {
+        if (isCancelled()) {
+            gui.onPuzzleGenerationFailed();
+            return;
+        }
         try {
             gui.onPuzzleGenerated(get(), difficulty);
         } catch (InterruptedException e) {

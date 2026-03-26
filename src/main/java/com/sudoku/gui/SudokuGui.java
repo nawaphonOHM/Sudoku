@@ -303,7 +303,9 @@ public final class SudokuGui extends JFrame implements ActionListener, MouseList
     }
 
     void onPuzzleGenerationFailed() {
-        startButton.setEnabled(true);
+        cancelButton.setEnabled(true);
+        setDifficultyButtonsEnabled(true);
+        okButton.setEnabled(selectedDifficulty != null);
     }
 
     private void applyBoardToGrid(final SudokuBoard board) {
