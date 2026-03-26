@@ -43,6 +43,7 @@ public final class SudokuGui extends JFrame implements ActionListener, MouseList
 
     @Nullable private DifficultyLevel selectedDifficulty;
     @Nullable private SudokuGame currentGame;
+    private boolean generationInProgress;
 
     public SudokuGui() {
         this.container = getContentPane();
@@ -283,9 +284,10 @@ public final class SudokuGui extends JFrame implements ActionListener, MouseList
     }
 
     private void handleOk() {
-        if (selectedDifficulty == null) {
+        if (selectedDifficulty == null || generationInProgress) {
             return;
         }
+        generationInProgress = true;
         okButton.setEnabled(false);
         cancelButton.setEnabled(false);
         startButton.setEnabled(false);
@@ -294,6 +296,7 @@ public final class SudokuGui extends JFrame implements ActionListener, MouseList
     }
 
     void onPuzzleGenerated(final SudokuBoard board, final DifficultyLevel difficulty) {
+        generationInProgress = false;
         currentGame = new SudokuGame(board, difficulty);
         applyBoardToGrid(board);
         timeLabel.setText("N/A");
@@ -303,6 +306,7 @@ public final class SudokuGui extends JFrame implements ActionListener, MouseList
     }
 
     void onPuzzleGenerationFailed() {
+        generationInProgress = false;
         cancelButton.setEnabled(true);
         setDifficultyButtonsEnabled(true);
         okButton.setEnabled(selectedDifficulty != null);

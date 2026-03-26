@@ -41,6 +41,7 @@ final class PuzzleGenerationWorker extends SwingWorker<SudokuBoard, Void> {
             Thread.currentThread().interrupt();
             gui.onPuzzleGenerationFailed();
         } catch (ExecutionException e) {
+            e.printStackTrace(System.err);
             gui.onPuzzleGenerationFailed();
         }
     }
